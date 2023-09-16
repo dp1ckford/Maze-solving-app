@@ -2,9 +2,10 @@ import PIL.Image
 import PIL.ImageDraw
 import PIL.ImageFont
 import random
+import sys
 
-MAZE_WIDTH, MAZE_HEIGHT = (22, 24)
-LINE_WIDTH = 6
+MAZE_WIDTH, MAZE_HEIGHT = (50, 60)
+LINE_WIDTH = 1
 IMAGE_COUNT = 10
 
 
@@ -100,6 +101,8 @@ def main():
 
         start_node = grid[random.randint(0, MAZE_HEIGHT-1)][random.randint(0, MAZE_WIDTH-1)]
         start_node.searched = True
+
+        sys.setrecursionlimit(MAZE_HEIGHT*MAZE_WIDTH)
 
         start_node.recursive_dfs()
 
