@@ -3,7 +3,7 @@ import PIL.ImageDraw
 import PIL.ImageFont
 import random
 
-MAZE_WIDTH, MAZE_HEIGHT = (11, 12)
+MAZE_WIDTH, MAZE_HEIGHT = (22, 24)
 LINE_WIDTH = 6
 IMAGE_COUNT = 10
 
@@ -98,7 +98,7 @@ def main():
 
         # DFS
 
-        start_node = grid[0][0]
+        start_node = grid[random.randint(0, MAZE_HEIGHT-1)][random.randint(0, MAZE_WIDTH-1)]
         start_node.searched = True
 
         start_node.recursive_dfs()
@@ -112,10 +112,10 @@ def main():
         canvas_dims = (794, 1123)
         img = PIL.Image.new(mode="RGB", size=canvas_dims, color=(255, 255, 255))
 
-        maze_width_px = 760
+        maze_width_px = 750
         tile_size = maze_width_px/MAZE_WIDTH
         maze_height_px = tile_size*MAZE_HEIGHT
-        maze_start = ((canvas_dims[0]-maze_width_px)/2, (canvas_dims[1]-maze_height_px)/2)
+        maze_start = ((canvas_dims[0]-maze_width_px-LINE_WIDTH)/2, (canvas_dims[1]-maze_height_px-LINE_WIDTH)/2)
         draw = PIL.ImageDraw.Draw(img)
 
         for y in range(MAZE_HEIGHT):
@@ -131,8 +131,8 @@ def main():
                 if grid[y][x].walls[2]:
                     points = [
                         (x*tile_size+maze_start[0], (y+1)*tile_size+maze_start[1]),
-                        ((x+1)*tile_size+maze_start[0], (y+1)*tile_size+maze_start[1]),
-                        ((x+1)*tile_size+maze_start[0], (y+1)*tile_size+LINE_WIDTH+maze_start[1]),
+                        ((x+1)*tile_size+maze_start[0]+LINE_WIDTH, (y+1)*tile_size+maze_start[1]),
+                        ((x+1)*tile_size+maze_start[0]+LINE_WIDTH, (y+1)*tile_size+LINE_WIDTH+maze_start[1]),
                         (x * tile_size+maze_start[0], (y+1)*tile_size+LINE_WIDTH+maze_start[1])
                     ]
                     draw.polygon(tuple(points), fill=(0, 0, 0, 255))
@@ -140,8 +140,8 @@ def main():
                 if grid[y][x].walls[1]:
                     points = [
                         ((x+1)*tile_size+maze_start[0], y*tile_size+maze_start[1]),
-                        ((x+1)*tile_size+maze_start[0], (y+1)*tile_size+maze_start[1]),
-                        ((x+1)*tile_size+maze_start[0]+LINE_WIDTH, (y+1)*tile_size+maze_start[1]),
+                        ((x+1)*tile_size+maze_start[0], (y+1)*tile_size+maze_start[1]+LINE_WIDTH),
+                        ((x+1)*tile_size+maze_start[0]+LINE_WIDTH, (y+1)*tile_size+maze_start[1]+LINE_WIDTH),
                         ((x+1) * tile_size+maze_start[0]+LINE_WIDTH, y*tile_size+maze_start[1])
                     ]
                     draw.polygon(tuple(points), fill=(0, 0, 0, 255))
